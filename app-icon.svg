@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Callsheet Breakdown: a camera lens on a production folder">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#142b39"/><stop offset=".55" stop-color="#0c1524"/><stop offset="1" stop-color="#251c38"/>
+    </linearGradient>
+    <linearGradient id="paper" x2="1" y2="1">
+      <stop stop-color="#d3fbf7"/><stop offset="1" stop-color="#9ab4ea"/>
+    </linearGradient>
+    <linearGradient id="folder" x2="1" y2="1">
+      <stop stop-color="#6fe4d7"/><stop offset=".50" stop-color="#79bad8"/><stop offset="1" stop-color="#b59ce7"/>
+    </linearGradient>
+    <linearGradient id="lens" x2="1" y2="1">
+      <stop stop-color="#2a5868"/><stop offset="1" stop-color="#433b70"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#56c8ca" stop-opacity=".31"/><stop offset="1" stop-color="#56c8ca" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h512v512H0z"/>
+  <circle cx="138" cy="145" r="246" fill="url(#glow)"/>
+  <path d="M125 362V163h97l25 22h140v177z" fill="#3c5775" stroke="#b1ccec" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M195 126h102l39 39v103H195a10 10 0 0 1-10-10V136a10 10 0 0 1 10-10z" fill="url(#paper)"/>
+  <path d="M297 126v29a10 10 0 0 0 10 10h29z" fill="#759aba"/>
+  <path d="M212 165h60m-60 23h86" fill="none" stroke="#416681" stroke-width="9" stroke-linecap="round"/>
+  <path d="M114 235a12 12 0 0 1 12-12h93l22 18h145a12 12 0 0 1 12 12v117a16 16 0 0 1-16 16H130a16 16 0 0 1-16-16z" fill="url(#folder)" stroke="#d2fff9" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="256" cy="309" r="56" fill="#121e31" stroke="#e1fff9" stroke-width="6"/>
+  <circle cx="256" cy="309" r="40" fill="url(#lens)" stroke="#91c7d5" stroke-width="3"/>
+  <path d="M249 286l25 5 12 23-19 21-25-5-12-23z" fill="#1a2544" stroke="#a6e9e0" stroke-width="3.5" stroke-linejoin="round"/>
+  <circle cx="265" cy="303" r="5" fill="#c8fff0"/>
+</svg>
