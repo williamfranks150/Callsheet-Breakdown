@@ -19,6 +19,10 @@
   };
   const apply = () => {
     const crew=document.getElementById('personnel');if(!crew)return;
+    crew.querySelectorAll('.crew-group').forEach(group=>{
+      const department=group.querySelector('h3')?.textContent.split('·').pop().trim();
+      if(department!=='Camera')group.remove();
+    });
     crew.querySelectorAll('a[href*="imdb.com"]').forEach(a=>{
       if(!/^https:\/\/(?:www\.)?imdb\.com\/name\/nm\d+\/?(?:\?.*)?$/.test(a.href))a.replaceWith(document.createTextNode(a.textContent.replace(/\s*↗/,'')));
     });
