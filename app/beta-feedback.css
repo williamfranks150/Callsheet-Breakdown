@@ -1,0 +1,13 @@
+#beta-feedback{overflow-y:auto}
+#beta-feedback .page-content{height:auto;transform:none!important;width:100%!important;gap:12px;padding-bottom:50px}
+#beta-feedback p{margin:0;color:var(--muted)}
+#beta-feedback form{display:grid;gap:12px}
+#beta-feedback label{display:grid;gap:5px;font-weight:600}
+#beta-feedback input,#beta-feedback select,#beta-feedback textarea{width:100%;min-height:44px;padding:10px 12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:9px;font:inherit;box-sizing:border-box}
+#beta-feedback textarea{resize:vertical;min-height:75px}
+#beta-feedback .feedback-actions{display:flex;flex-wrap:wrap;gap:8px}
+#beta-feedback button{min-height:44px;padding:10px 14px;background:var(--surface);color:var(--accent);border:1px solid var(--line);border-radius:9px;font:600 14px system-ui;cursor:pointer}
+#beta-feedback button[type=submit]{background:#23443f;border-color:#80c7ca}
+#feedback-preview{min-height:180px!important;font-size:13px!important}
+#feedback-preview[hidden]{display:none}
+#feedback-status{font-size:13px;min-height:1.5em}
