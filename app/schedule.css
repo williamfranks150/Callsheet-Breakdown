@@ -12,7 +12,7 @@
 .month-date>small{max-width:100%;font-size:clamp(.6rem,2.65vw,.83rem);overflow-wrap:anywhere}
 .month-date>.month-day-label{font-size:clamp(.58rem,2.42vw,.8rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .month-date>.month-day-meta{color:#c5dce7;font-variant-numeric:tabular-nums}
-.month-date.compact-week{min-height:44px}
+.month-date,.month-date.compact-week{height:100px;min-height:100px;overflow:hidden}
 .month-date[data-kind="work"]{background:#1b2a3a}
 .month-date[data-kind="splinter"]{background:#28243b}
 .month-date[data-kind="off"]{color:#c0cbd6}
@@ -24,7 +24,7 @@
 #month-schedule [data-border="travel"]{box-shadow:inset 0 0 0 2px #c3a6f5}
 #month-schedule [data-border="tentative"]{box-shadow:none}
 .month-dash{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.month-dash rect{x:1px;y:1px;width:calc(100% - 2px);height:calc(100% - 2px);rx:5px;fill:none;stroke:#75a9a6;stroke-width:2px;stroke-dasharray:5px 4px}
+.month-dash rect{x:1px;y:1px;width:calc(100% - 2px);height:calc(100% - 2px);rx:5px;fill:none;stroke:#75a9a6;stroke-width:2px;stroke-dasharray:2.5 2.5;stroke-dashoffset:1.25;stroke-linecap:butt}
 .month-date[aria-current="date"]{outline:2px solid #eaf4fa;outline-offset:-3px}
 .booking-legend{display:flex;flex-wrap:wrap;gap:.3rem;margin:0;font-size:.72rem}
 .booking-legend>span{display:inline-flex;align-items:center;gap:.28rem;padding:.12rem .28rem}

@@ -13,10 +13,10 @@
     $('inline-sides').append(img);
   }
 
-  const defaults={prep:60,early:20,parking:15,clearing:15};
+  const defaults={prep:60,early:20,parking:15,clearing:0,drive:45};
   const fields=[
     ['prep','Get ready',180],['early','Early at tech trucks',90],
-    ['parking','Parking / shuttle buffer',90],['clearing','Car clearing when needed',60]
+    ['parking','Parking / shuttle buffer',90],['clearing','Car clearing when needed',60],['drive','Manual driving allowance',180]
   ];
   const storageKey='callsheet-breakdown-timing-v1';
   let saved={};
@@ -47,7 +47,7 @@
     const shuttle=settings.parking??card.parking_shuttle_minutes??15;
     const clearing=settings.clearing??card.car_clearing_minutes??0;
     const park=truck-shuttle;
-    const duration=card.traffic?.planning_minutes;
+    const duration=settings.drive??card.traffic?.planning_minutes;
     const leave=Number.isFinite(duration)?park-duration:null;
     const origin=original.textContent.includes('Leave hotel')?'Leave hotel':'Leave home';
     const ready=leave===null?null:leave-clearing-(settings.prep??card.preparation_minutes??60);
@@ -61,7 +61,7 @@
     timeline.replaceChildren(...nodes);
     const t=card.traffic?.departure?.match(/T(\d\d):(\d\d)/);
     note.hidden=leave!==null&&t!==undefined&&t!==null&&leave===+t[1]*60+ +t[2];
-    note.textContent=leave===null?'Driving estimate pending.':('Adjusted departure uses the saved '+duration+' min driving allowance; traffic has not been checked for this time.');
+    note.textContent=leave===null?'Driving estimate pending. Set a manual driving allowance in Timing to plan departure.':((settings.drive!==undefined?'Manual':'Saved')+' driving allowance: '+duration+' min. Traffic has not been checked for this departure.');
   }
   function save(){
     try{localStorage.setItem(storageKey,JSON.stringify(settings));}catch{}

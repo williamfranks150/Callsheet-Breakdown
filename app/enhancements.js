@@ -1,5 +1,6 @@
 (() => {
   const $ = id => document.getElementById(id);
+  function remainingAt(state,now){return state.end===null?state.remaining:Math.max(0,Math.ceil((state.end-now)/1000));}
   fetch('/day-context.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{
     const select=$('sides-unit');if(!select)return;
     function sides(){
@@ -24,22 +25,25 @@
   trigger.className='timer-trigger';trigger.setAttribute('aria-label','Open timer');
   trigger.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="14" r="8"/><path d="M9 2h6m-3 0v4m0 8V9m6-2 2-2"/></svg><span>Timer</span>';
   document.querySelector('.main-toolbar').append(trigger);
+  const weatherTrigger=trigger.cloneNode(true);$('weather').querySelector('h2').before(weatherTrigger);
   const dlg=document.createElement('dialog');dlg.id='timer-dialog';
   dlg.setAttribute('aria-labelledby','timer-heading');
   dlg.innerHTML='<header><h2 id="timer-heading">Timer</h2><button type="button" data-close>Close</button></header><output id="timer-count" aria-label="Time remaining">05:00</output><label>Minutes <input id="timer-minutes" type="number" inputmode="numeric" min="1" max="1440" step="1" value="5"></label><div class="timer-actions"><button type="button" data-start>Start</button><button type="button" data-reset>Reset</button></div><p id="timer-status" role="status"></p><small>Time keeps running with the app closed. Sound while the screen is locked is not guaranteed.</small>';
   document.body.append(dlg);
   let wasRunning=false;
-  function seconds(){return timer.end===null?timer.remaining:Math.max(0,Math.ceil((timer.end-Date.now())/1000));}
+  function seconds(){return remainingAt(timer,Date.now());}
   function paint(){
     const n=seconds(),running=timer.end!==null;
     $('timer-count').textContent=String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
     trigger.querySelector('span').textContent=running?(n?'Timer '+$('timer-count').textContent:'Time’s up'):'Timer';
+    weatherTrigger.querySelector('span').textContent=trigger.querySelector('span').textContent;
     dlg.querySelector('[data-start]').textContent=running?'Pause':timer.remaining?'Start':'Start again';
     $('timer-minutes').disabled=running;
     if(running&&n===0){timer={remaining:0,end:null};persist();$('timer-status').textContent='Time’s up';if(wasRunning&&document.visibilityState==='visible'&&navigator.vibrate)navigator.vibrate([200,100,200]);}
     wasRunning=running;
   }
   trigger.addEventListener('click',()=>{paint();dlg.showModal();});
+  weatherTrigger.addEventListener('click',()=>{paint();dlg.showModal();});
   dlg.querySelector('[data-close]').addEventListener('click',()=>dlg.close());
   let backdrop=false;
   const outside=e=>{const r=dlg.getBoundingClientRect();return e.target===dlg&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom);};

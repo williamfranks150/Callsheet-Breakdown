@@ -15,7 +15,7 @@
   function drawDash(target){
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
     svg.setAttribute('class','month-dash');svg.setAttribute('aria-hidden','true');
-    svg.append(document.createElementNS(svg.namespaceURI,'rect'));target.append(svg);
+    const rect=document.createElementNS(svg.namespaceURI,'rect');rect.setAttribute('pathLength','100');svg.append(rect);target.append(svg);
   }
   const legend=document.querySelector('#month-schedule .booking-legend');
   legend.replaceChildren(...[
@@ -45,8 +45,9 @@
       }
     }
     if(!entry.travel&&entry.location&&!isOff(entry))box.append(el('p',entry.location));
+    if(entry.call_conflict)box.append(el('p',entry.call_conflict));
     const sources=entry.sources??[];
-    for(const [name,url] of sources.filter(([name])=>!/prep|advance/i.test(name)).slice(0,kind==='travel'?2:1).concat(sources.every(([name])=>/prep|advance/i.test(name))?sources.slice(0,1):[])){
+    for(const [name,url] of sources){
       const a=el('a',name+' ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';box.append(a);
     }
   }

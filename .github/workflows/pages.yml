@@ -25,7 +25,7 @@ jobs:
       - name: Stage public files only
         run: |
           mkdir -p public-release
-          cp index.html manifest.webmanifest app-icon.svg apple-touch-icon.png public-release/
+          cp index.html manifest.webmanifest app-icon.svg apple-touch-icon.png icon-192.png icon-512.png public-release/
           cp -R app public-release/app
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
