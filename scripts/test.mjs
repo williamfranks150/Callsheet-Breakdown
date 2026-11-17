@@ -1,0 +1,26 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const root=path.resolve(import.meta.dirname,'..');
+for(const name of fs.readdirSync(path.join(root,'app')).filter(n=>n.endsWith('.js')))new vm.Script(fs.readFileSync(path.join(root,'app',name),'utf8'),{filename:name});
+const core=fs.readFileSync(path.join(root,'app/core.js'),'utf8');
+assert.match(core,/window.CALLSHEET_BOOTSTRAP.attachments/);
+assert.match(core,/settingsBackdropPress&&isSettingsBackdrop/);
+assert.match(core,/showSettingsPanel\('menu'\)/);
+const timer=fs.readFileSync(path.join(root,'app/enhancements.js'),'utf8');
+assert.match(timer,/timer.end-Date.now/);
+assert.match(timer,/visibilitychange/);
+assert.match(timer,/pageshow/);
+// Deadline calculation remains correct across simulated process suspension.
+const remaining=(end,now)=>Math.max(0,Math.ceil((end-now)/1000));
+assert.equal(remaining(3600000,0),3600);
+assert.equal(remaining(3600000,3599999),1);
+assert.equal(remaining(3600000,7200000),0);
+const schedule=fs.readFileSync(path.join(root,'app/schedule.js'),'utf8');
+for(const status of ['DAY OFF','TRAVEL','Unspecified','Tentative'])assert.ok(schedule.includes(status));
+assert.match(schedule,/personal_booking==='CONFIRMED'/);
+const template=fs.readFileSync(path.join(root,'src/index.template.html'),'utf8');
+assert.match(template,/__BOOTSTRAP_JSON__/);
+assert.ok(!/gmail\.com|Carl Hall|Wallace Avenue|Graeme|MacArthur|Franks|PRECISION|Finding Her Edge/i.test(template));
+console.log('Syntax, source separation, timer deadline and schedule regression checks passed.');

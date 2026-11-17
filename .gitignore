@@ -1,0 +1,8 @@
+.private/
+dist/
+evidence/
+node_modules/
+*.pdf
+*.jpg
+.env*
+.openai/

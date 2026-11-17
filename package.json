@@ -1,0 +1,8 @@
+{
+  "name": "callsheet-breakdown",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node scripts/test.mjs", "build": "node scripts/build.mjs"},
+  "engines": {"node": ">=20"}
+}
