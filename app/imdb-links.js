@@ -4,7 +4,18 @@
     'Bill Franks':'nm2692530',
     'Gregor Hagey':'nm0353563',
     'Brad Hruboska':'nm0398662',
-    'Ari Magder':'nm3351590'
+    'Ari Magder':'nm3351590',
+    'Robert Murdoch':'nm5684507',
+    'Austin Grass':'nm7356627',
+    'Joseph Perron':'nm9835760',
+    'Morning Glory':'nm3684724',
+    'Adam Tupper':'nm2115816',
+    'Stepan Sivko':'nm1964964',
+    'Sarah Beck':'nm9013232',
+    'Shakithyan Niranjan':'nm5709105',
+    'David Watts':'nm0915129',
+    'Chris Noble':'nm4415267',
+    'Kyle Church':'nm10427044'
   };
   const apply = () => {
     const crew=document.getElementById('personnel');if(!crew)return;
