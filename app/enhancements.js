@@ -32,13 +32,14 @@
   document.body.append(dlg);
   let wasRunning=false;
   function seconds(){return remainingAt(timer,Date.now());}
+  const setText=(node,value)=>{if(node.textContent!==value)node.textContent=value;};
   function paint(){
     const n=seconds(),running=timer.end!==null;
-    $('timer-count').textContent=String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
-    trigger.querySelector('span').textContent=running?(n?'Timer '+$('timer-count').textContent:'Time’s up'):'Timer';
-    weatherTrigger.querySelector('span').textContent=trigger.querySelector('span').textContent;
-    dlg.querySelector('[data-start]').textContent=running?'Pause':timer.remaining?'Start':'Start again';
-    $('timer-minutes').disabled=running;
+    setText($('timer-count'),String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0'));
+    setText(trigger.querySelector('span'),running?(n?'Timer '+$('timer-count').textContent:'Time’s up'):'Timer');
+    setText(weatherTrigger.querySelector('span'),trigger.querySelector('span').textContent);
+    setText(dlg.querySelector('[data-start]'),running?'Pause':timer.remaining?'Start':'Start again');
+    if($('timer-minutes').disabled!==running)$('timer-minutes').disabled=running;
     if(running&&n===0){timer={remaining:0,end:null};persist();$('timer-status').textContent='Time’s up';if(wasRunning&&document.visibilityState==='visible'&&navigator.vibrate)navigator.vibrate([200,100,200]);}
     wasRunning=running;
   }
@@ -77,8 +78,4 @@
   new MutationObserver(updateScroll).observe(document.body,{attributes:true,attributeFilter:['hidden','open'],childList:true,subtree:true});
   new ResizeObserver(updateScroll).observe(document.querySelector('main'));
   document.addEventListener('load',updateScroll,true);updateScroll();
-  // Only verified personal IMDb identities are clickable.
-  document.querySelectorAll('#personnel a[href*="imdb.com/"]').forEach(a=>{
-    if(!/\/name\/nm\d+/.test(a.href)){const t=document.createElement('span');t.textContent=a.textContent.replace(/\s*↗/,'');a.replaceWith(t);}
-  });
 })();

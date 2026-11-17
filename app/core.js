@@ -22,10 +22,7 @@ refreshButton.addEventListener('click',async()=>{
 
 const viewer=document.getElementById('attachment-view');
 const attachmentWorkspace=document.createElement('div');attachmentWorkspace.className='attachment-workspace';
-const mapGuide=document.createElement('aside');mapGuide.className='map-area-guide';mapGuide.hidden=true;mapGuide.setAttribute('aria-label','Downsview area guide');
-mapGuide.innerHTML=window.CALLSHEET_BOOTSTRAP.guide;
-const originalCanvas=document.getElementById('attachment-canvas');originalCanvas.before(attachmentWorkspace);attachmentWorkspace.append(mapGuide,originalCanvas);
-function configureMapGuide(key){const show=key==='production-map'&&false;mapGuide.hidden=!show;attachmentWorkspace.classList.toggle('has-area-guide',show);mapGuide.querySelector('details').open=show&&matchMedia('(min-width:700px)').matches;}
+const originalCanvas=document.getElementById('attachment-canvas');originalCanvas.before(attachmentWorkspace);attachmentWorkspace.append(originalCanvas);
 let attachmentLink;
 function closeAttachment(){viewer.close();document.getElementById('attachment-canvas').replaceChildren();if(attachmentLink)attachmentLink.focus();}
 document.getElementById('close-attachment').addEventListener('click',closeAttachment);
@@ -34,18 +31,17 @@ viewer.addEventListener('cancel',event=>{event.preventDefault();closeAttachment(
 
 
 // Keep page navigation outside each scrollable content area.
-document.querySelectorAll('.page').forEach(page=>{const nav=page.querySelector('.nav');if(nav)page.append(nav);});
 const attachmentPages=window.CALLSHEET_BOOTSTRAP.attachments;
 let currentAttachmentPages=[],attachmentIndex=0;
 function renderAttachment(){document.getElementById('attachment-count').textContent=(attachmentIndex+1)+' / '+currentAttachmentPages.length;document.getElementById('attachment-previous').disabled=attachmentIndex===0;document.getElementById('attachment-next').disabled=attachmentIndex>=currentAttachmentPages.length-1;}
-function openAttachment(link){const key=new URL(link.href,location.href).pathname.split('/').pop().replace('.pdf','');configureMapGuide(key);document.getElementById('attachment-title').textContent=/map/.test(key)?'Production Map':/sides/.test(key)?'Sides':/call-sheet/.test(key)?'Callsheet Breakdown':'Attachment';document.getElementById('attachment-original').href=freshAsset(link.href);currentAttachmentPages=attachmentPages[key]||[];attachmentIndex=0;if(!currentAttachmentPages.length){const frame=document.createElement('iframe');frame.src=freshAsset(link.href);frame.title=link.textContent.trim()||'PDF document';frame.style.cssText='width:100%;height:100%;border:0;flex:0 0 100%';document.getElementById('attachment-canvas').replaceChildren(frame);document.getElementById('attachment-count').textContent='';document.getElementById('attachment-previous').disabled=true;document.getElementById('attachment-next').disabled=true;return;}const canvas=document.getElementById('attachment-canvas');canvas.replaceChildren(...currentAttachmentPages.map((src,i)=>{const slide=document.createElement('div');slide.className='attachment-slide';const img=document.createElement('img');img.src=freshAsset(src);img.alt='Attachment page '+(i+1);img.draggable=false;slide.append(img);return slide;}));canvas.scrollTop=0;canvas.scrollLeft=0;renderAttachment();}
+function openAttachment(link){const key=new URL(link.href,location.href).pathname.split('/').pop().replace('.pdf','');document.getElementById('attachment-title').textContent=/map/.test(key)?'Production Map':/sides/.test(key)?'Sides':/call-sheet/.test(key)?'Callsheet Breakdown':'Attachment';document.getElementById('attachment-original').href=freshAsset(link.href);currentAttachmentPages=attachmentPages[key]||[];attachmentIndex=0;if(!currentAttachmentPages.length){const frame=document.createElement('iframe');frame.src=freshAsset(link.href);frame.title=link.textContent.trim()||'PDF document';frame.style.cssText='width:100%;height:100%;border:0;flex:0 0 100%';document.getElementById('attachment-canvas').replaceChildren(frame);document.getElementById('attachment-count').textContent='';document.getElementById('attachment-previous').disabled=true;document.getElementById('attachment-next').disabled=true;return;}const canvas=document.getElementById('attachment-canvas');canvas.replaceChildren(...currentAttachmentPages.map((src,i)=>{const slide=document.createElement('div');slide.className='attachment-slide';const img=document.createElement('img');img.src=freshAsset(src);img.alt='Attachment page '+(i+1);img.draggable=false;slide.append(img);return slide;}));canvas.scrollTop=0;canvas.scrollLeft=0;renderAttachment();}
 
 document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>{const target=document.getElementById(link.getAttribute('href').slice(1));const content=target?.querySelector('.page-content');if(content)content.scrollTop=0;}));
 
 const pageStrip=document.querySelector('main');
 const swipePages=Array.from(pageStrip.querySelectorAll('.page:not(#weather)'));
 function changeCategoryBy(delta){if(document.body.classList.contains('weather-open'))return;const index=swipePages.findIndex(page=>!page.hidden);const next=index+delta;if(next>=0&&next<swipePages.length)selectCategory(swipePages[next].id);}
-document.addEventListener('keydown',event=>{if(viewer.open||document.getElementById('settings-dialog').open||!['ArrowLeft','ArrowRight'].includes(event.key)||event.target.closest('input,textarea,select'))return;event.preventDefault();changeCategoryBy(event.key==='ArrowRight'?1:-1);});
+document.addEventListener('keydown',event=>{if(viewer.open||document.getElementById('settings-dialog').open||document.getElementById('timer-dialog')?.open||!['ArrowLeft','ArrowRight'].includes(event.key)||event.target.closest('input,textarea,select'))return;event.preventDefault();changeCategoryBy(event.key==='ArrowRight'?1:-1);});
 pageStrip.style.touchAction='pan-y pinch-zoom';
 let categoryTouch=null;
 pageStrip.addEventListener('touchstart',event=>{categoryTouch=event.touches.length===1&&!viewer.open&&!document.getElementById('settings-dialog').open&&!event.target.closest('input,textarea,select,button')?{x:event.touches[0].clientX,y:event.touches[0].clientY,time:Date.now()}:null;},{passive:true});

@@ -7,12 +7,6 @@
     $('weather-back').focus();
   });
   $('weather-back').addEventListener('click',()=>{selectCategory('itinerary');weatherLink.focus();});
-  for(const [i,src] of (attachmentPages.sides??[]).entries()){
-    const img=document.createElement('img');
-    img.src=freshAsset(src);img.alt='Sides, page '+(i+1);img.loading='lazy';
-    $('inline-sides').append(img);
-  }
-
   const defaults={prep:60,early:20,parking:15,clearing:0,drive:45};
   const fields=[
     ['prep','Get ready',180],['early','Early at tech trucks',90],
@@ -41,7 +35,6 @@
       input.value=n;output.textContent=n+' min';input.setAttribute('aria-valuetext',n+' minutes');
     }
     if(!card)return;
-    if(!Object.keys(settings).length&&Number.isFinite(card.traffic?.planning_minutes)){timeline.replaceChildren(...original.cloneNode(true).childNodes);note.hidden=true;return;}
     const [h,m]=card.individual_call.split(':').map(Number),call=h*60+m;
     const truck=call-(settings.early??20);
     const shuttle=settings.parking??card.parking_shuttle_minutes??15;

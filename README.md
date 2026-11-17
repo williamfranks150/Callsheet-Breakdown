@@ -19,7 +19,11 @@ No third-party runtime dependencies. Node.js 20.11+ runs the build and checks.
 3. Run `npm run build`.
 4. Deploy `dist/` to authenticated private hosting. Never deploy it to public GitHub Pages: it contains production documents and personal information.
 
-The current private deployment preserves the existing URL and access controls. Its data and original documents stay on that protected deployment. Reusable code assets can be published separately through GitHub Pages, without publishing production content.
+The current deployment preserves the existing URL and audience. Site access is configured separately from this repository: publishing safe code does not make production documents private. Do not place production documents in public GitHub Pages artifacts.
+
+## Locked interface
+
+The November 17, 2026 interface is approved. Maintenance releases preserve its layout, navigation and visual identity. Published runtime code is bundled with each release rather than loaded from the mutable Pages branch; future repository edits cannot silently change an approved deployment. Apply future changes through an explicit tested release. Original production documents and historical releases remain available for audit and rollback.
 
 ## GitHub workflow
 

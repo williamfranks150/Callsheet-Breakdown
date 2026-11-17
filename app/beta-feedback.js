@@ -6,7 +6,7 @@
   try{const saved=JSON.parse(localStorage.getItem(key)||'{}');for(const k of fields)if(typeof saved[k]==='string')form.elements.namedItem(k).value=saved[k];}catch{}
   const save=()=>{try{localStorage.setItem(key,JSON.stringify(values()));status.textContent='Draft saved on this device.';}catch{status.textContent='Draft storage unavailable. Copy your notes before leaving.';}};
   form.addEventListener('input',save);
-  function report(){const v=values();return ['Callsheet Breakdown — Beta feedback','Build: 127 · '+location.origin,'Type: '+v.type,'Page: '+v.page,'Summary: '+v.summary,'','Steps to reproduce:',v.steps||'Not supplied','','Expected:',v.expected||'Not supplied','','What happened:',v.actual||'Not supplied','','Device / browser:',navigator.userAgent].join('\n');}
+  function report(){const v=values();return ['Callsheet Breakdown — Beta feedback','Build: '+(window.CALLSHEET_BOOTSTRAP.build||'127')+' · '+location.origin,'Type: '+v.type,'Page: '+v.page,'Summary: '+v.summary,'','Steps to reproduce:',v.steps||'Not supplied','','Expected:',v.expected||'Not supplied','','What happened:',v.actual||'Not supplied','','Device / browser:',navigator.userAgent].join('\n');}
   const preview=document.getElementById('feedback-preview');
   const review=()=>{preview.value=report();preview.hidden=false;};
   document.getElementById('feedback-review').addEventListener('click',review);
